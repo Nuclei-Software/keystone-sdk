@@ -49,8 +49,14 @@ PhysicalEnclaveMemory::readMem(uintptr_t src, size_t size) {
 void
 PhysicalEnclaveMemory::writeMem(uintptr_t src, uintptr_t dst, size_t size) {
   assert(pDevice);
+  printf("Map %llx, %llx, %llx\n", dst, startAddr, size);
   void* va_dst = pDevice->map(dst - startAddr, size);
+  printf("Memcpy %llx, %llx, %llx start\n", va_dst, src, size);
+  // if ((uintptr_t)va_dst == (uintptr_t)(-1)) {
+  //   asm volatile("ebreak");
+  // }
   memcpy(va_dst, reinterpret_cast<void*>(src), size);
+  printf("Memcpy %llx, %llx, %llx end\n", va_dst, src, size);
 }
 
 }  // namespace Keystone

@@ -1,6 +1,5 @@
 project(keystone-edge C ASM)
 
-set(CFLAGS      "-Wall -Werror")
 set(LDFLAGS     "-static")
 set(DEFINES     "-DIO_SYSCALL_WRAPPING")
 

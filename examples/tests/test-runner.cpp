@@ -67,7 +67,7 @@ main(int argc, char** argv) {
   int load_only   = 0;
 
   size_t untrusted_size = 2 * 1024 * 1024;
-  size_t freemem_size   = 48 * 1024 * 1024;
+  size_t freemem_size   = 8 * 1024 * 1024;
   uintptr_t utm_ptr     = (uintptr_t)DEFAULT_UNTRUSTED_PTR;
 
   static struct option long_options[] = {
@@ -107,8 +107,12 @@ main(int argc, char** argv) {
   Keystone::Params params;
   unsigned long cycles1, cycles2, cycles3, cycles4;
 
+  printf("[keystone-test]Start test runner\r\n");
   params.setFreeMemSize(freemem_size);
   params.setUntrustedMem(utm_ptr, untrusted_size);
+
+  printf("[keystone-test]Enclave init: eapp_file %s, rt_file %s\r\n", \
+    eapp_file, rt_file);
 
   if (self_timing) {
     asm volatile("rdcycle %0" : "=r"(cycles1));
@@ -120,13 +124,17 @@ main(int argc, char** argv) {
     asm volatile("rdcycle %0" : "=r"(cycles2));
   }
 
+  printf("[keystone-test]Edge init\r\n");
   edge_init(&enclave);
 
+  printf("[keystone-test]Enclave run\r\n");
   if (self_timing) {
     asm volatile("rdcycle %0" : "=r"(cycles3));
   }
 
   if (!load_only) enclave.run();
+
+  printf("[keystone-test]Enclave finish\r\n");
 
   if (self_timing) {
     asm volatile("rdcycle %0" : "=r"(cycles4));

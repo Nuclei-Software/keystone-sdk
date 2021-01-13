@@ -1,6 +1,5 @@
 project(keystone-eapp C ASM)
 
-set(CFLAGS      "-Wall -Werror")
 set(LDFLAGS     "-static")
 
 set(SOURCE_FILES

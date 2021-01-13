@@ -4,7 +4,7 @@ macro(global_set Name Value)
 endmacro()
 
 macro(use_riscv_toolchain bits)
-  set(cross_compile riscv${bits}-unknown-linux-gnu-)
+  set(cross_compile riscv-nuclei-linux-gnu-)
   execute_process(
     COMMAND which ${cross_compile}gcc
     OUTPUT_VARIABLE CROSSCOMPILE
@@ -25,7 +25,9 @@ macro(use_riscv_toolchain bits)
   set(AR              ${CROSSCOMPILE}ar)
   set(OBJCOPY         ${CROSSCOMPILE}objcopy)
   set(OBJDUMP         ${CROSSCOMPILE}objdump)
-  set(CFLAGS          "-Wall -Werror")
+  set(CFLAGS          "-Wall -Werror -march=$ENV{ARCH} -mabi=$ENV{ABI}")
+  set(CXXFLAGS        "-Wall -march=$ENV{ARCH} -mabi=$ENV{ABI}")
+  set(ASMFLAGS        "-Wall -march=$ENV{ARCH} -mabi=$ENV{ABI}")
 
   global_set(CMAKE_C_COMPILER        ${CC}${EXT})
   global_set(CMAKE_ASM_COMPILER        ${CC}${EXT})
@@ -35,6 +37,8 @@ macro(use_riscv_toolchain bits)
   global_set(CMAKE_OBJCOPY           ${OBJCOPY}${EXT})
   global_set(CMAKE_OBJDUMP           ${OBJDUMP}${EXT})
   global_set(CMAKE_C_FLAGS           ${CMAKE_C_FLAGS} ${CFLAGS})
+  global_set(CMAKE_CXX_FLAGS         ${CMAKE_CXX_FLAGS} ${CXXFLAGS})
+  global_set(CMAKE_ASM_FLAGS         ${CMAKE_ASM_FLAGS} ${ASMFLAGS})
 
   check_compiler(${CMAKE_C_COMPILER})
   check_compiler(${CMAKE_CXX_COMPILER})
@@ -84,7 +88,7 @@ macro(add_eyrie_runtime target_name tag plugins) # the files are passed via ${AR
 
   ExternalProject_Add(eyrie-${target_name}
     PREFIX ${runtime_prefix}
-    GIT_REPOSITORY https://github.com/keystone-enclave/keystone-runtime
+    GIT_REPOSITORY https://github.com/nuclei-community/keystone-runtime/
     GIT_TAG ${tag}
     CONFIGURE_COMMAND ""
     BUILD_COMMAND ./build.sh ${plugins}

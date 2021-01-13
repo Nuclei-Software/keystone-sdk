@@ -1,6 +1,5 @@
 project(keystone-verifier C CXX)
 
-set(CFLAGS      "-Wall -Werror")
 set(LDFLAGS     "-static")
 
 set(SOURCE_FILES

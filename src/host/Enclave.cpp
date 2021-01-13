@@ -54,6 +54,7 @@ Enclave::loadUntrusted() {
   };
 
   while (va_start < va_end) {
+    printf("allocPage %llx, %llx\n", va_start, va_end);
     if (!pMemory->allocPage(va_start, (uintptr_t)nullpage, UTM_FULL)) {
       return Error::PageAllocationFailure;
     }
