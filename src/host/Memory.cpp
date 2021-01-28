@@ -60,7 +60,8 @@ bool
 Memory::allocPage(uintptr_t va, uintptr_t src, unsigned int mode) {
   uintptr_t page_addr;
   uintptr_t* pFreeList = (mode == UTM_FULL ? &utmFreeList : &epmFreeList);
-  printf("Create PTE for %llx\n", va);
+  // printf("Create PTE for %llx\n", va);
+  // printf("allocPage: %llx, %llx, %llx\n", va, src, mode);
 
   pte* pte = __ept_walk_create(va);
 
@@ -72,7 +73,7 @@ Memory::allocPage(uintptr_t va, uintptr_t src, unsigned int mode) {
   /* otherwise, allocate one from EPM freelist */
   page_addr = *pFreeList >> PAGE_BITS;
   *pFreeList += PAGE_SIZE;
-  printf("PTE mode %x\n", mode);
+  // printf("PTE mode %x\n", mode);
 
   switch (mode) {
     case USER_NOEXEC: {
