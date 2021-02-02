@@ -88,7 +88,7 @@ macro(add_eyrie_runtime target_name tag plugins) # the files are passed via ${AR
 
   ExternalProject_Add(eyrie-${target_name}
     PREFIX ${runtime_prefix}
-    GIT_REPOSITORY https://github.com/nuclei-community/keystone-runtime/
+    GIT_REPOSITORY https://github.com/Nuclei-Software/keystone-runtime/
     GIT_TAG ${tag}
     CONFIGURE_COMMAND ""
     BUILD_COMMAND ./build.sh ${plugins}
