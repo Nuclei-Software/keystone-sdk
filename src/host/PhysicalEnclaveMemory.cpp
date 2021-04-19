@@ -54,6 +54,8 @@ PhysicalEnclaveMemory::writeMem(uintptr_t src, uintptr_t dst, size_t size) {
   // printf("Memcpy %llx, %llx, %llx start\n", va_dst, src, size);
   if (va_dst != (void *)-1) { // Added by hqfang, check whether map succeed
     memcpy(va_dst, reinterpret_cast<void*>(src), size);
+  } else {
+    assert(va_dst == (void *)-1);
   }
   // printf("Memcpy %llx, %llx, %llx end\n", va_dst, src, size);
 }
